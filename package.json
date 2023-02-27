@@ -1,6 +1,6 @@
 {
 	"name": "ts-node-cli-template",
-	"version": "1.0.6",
+	"version": "1.0.0",
 	"description": "",
 	"main": "./lib/index.js",
 	"type": "module",
@@ -16,9 +16,8 @@
 		"node": "^14.18.0 || >=16.0.0"
 	},
 	"scripts": {
-		"start": "tsx src/index.ts",
-		"dev": "tsx src/index.ts --watch",
-		"build": "tsc",
+		"dev": "tsx src/index.ts",
+		"build": "tsc && tsc-alias",
 		"commit": "cz",
 		"release": "git stash && git pull && release-it && git stash pop",
 		"do-publish": "pnpm build && pnpm publish --access public"
@@ -87,6 +86,7 @@
 		"husky": "^8.0.3",
 		"prettier": "^2.8.4",
 		"release-it": "^15.6.0",
+		"tsc-alias": "^1.8.2",
 		"tsx": "^3.12.3",
 		"typescript": ">=4.4"
 	}
