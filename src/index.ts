@@ -5,15 +5,18 @@ import chalk from 'chalk'
 import { program } from 'commander'
 import figlet from 'figlet'
 import { create } from './core/index.js'
-import type { CreateOptions, PackageJSON } from './types.js'
 import { isValidPackageName, toValidPackageName } from './utils/index.js'
-import { CLI_NAME } from './config.js'
+import type { CreateOptions, PackageJSON } from '@/types/index.js'
+import { app } from '@/config.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const packagePath = path.resolve(__filename, '../../package.json')
 
 const packageJSON = fs.readJSONSync(packagePath) as PackageJSON
 
+/**
+ * create 命令
+ */
 program
   .command('create <name>')
   .description('create some thing')
@@ -25,19 +28,22 @@ program
     } else {
       console.log(`${chalk.bgRed(`${name} 不符合 package name 标准`)}`)
     }
-
-    // 打印命令行输入的值
   })
 
+/**
+ * 配置版本号信息
+ */
 program
-  // 配置版本号信息
-  .name(CLI_NAME)
+  .name(app.CLI_NAME)
   .version(`v${packageJSON.version}`)
   .usage('<command> [option]')
 
+/**
+ * help
+ */
 program.on('--help', () => {
   console.log(
-    `\r\n${figlet.textSync(CLI_NAME.toLocaleUpperCase(), {
+    `\r\n${figlet.textSync(app.CLI_NAME.toLocaleUpperCase(), {
       font: 'Ghost',
       horizontalLayout: 'default',
       verticalLayout: 'default',
@@ -47,7 +53,9 @@ program.on('--help', () => {
   )
 
   console.log(
-    `\r\nRun ${chalk.cyan(`${CLI_NAME} <command> --help`)} show details\r\n`,
+    `\r\nRun ${chalk.cyan(
+      `${app.CLI_NAME} <command> --help`,
+    )} show details\r\n`,
   )
 })
 

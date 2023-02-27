@@ -5,8 +5,9 @@ import inquirer from 'inquirer'
 import downloadGitRepo from 'download-git-repo'
 import chalk from 'chalk'
 import shell from 'shelljs'
-import { REPO_NAME } from '../config.js'
 import { getRepoList, getTagList } from './http.js'
+import { app } from '@/config.js'
+
 // 添加加载动画
 const downloadGitRepoByPromise = util.promisify(downloadGitRepo)
 type PromiseReturn<T> = T extends () => Promise<infer Value> ? Value : never
@@ -75,12 +76,12 @@ export default class Generator {
   // 1）拼接下载地址
   // 2）调用下载方法
   async download(repo: string, tag: string) {
-    if (!REPO_NAME) {
+    if (!app.REPO_NAME) {
       console.log('请配置 REPO_NAME')
       return
     }
     // 1）拼接下载地址
-    const requestUrl = `${REPO_NAME}/${repo}${tag ? `#${tag}` : ''}`
+    const requestUrl = `${app.REPO_NAME}/${repo}${tag ? `#${tag}` : ''}`
     const localPath = path.resolve(process.cwd(), this.targetDir)
     // 2）调用下载方法
     await wrapLoading(
@@ -154,6 +155,7 @@ async function wrapLoading<T extends () => Promise<any>>(
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return result
   } catch (error) {
+    console.log('%c Line:158 🥪 error', 'color:#fca650', error)
     // 状态为修改为失败
     spinner.fail('Request failed, refetch ...')
   }

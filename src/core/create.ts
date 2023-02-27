@@ -2,8 +2,8 @@ import path from 'node:path'
 import process from 'node:process'
 import fs from 'fs-extra'
 import inquirer from 'inquirer'
-import type { CreateOptions } from '../types.js'
 import Generator from './Generator.js'
+import type { CreateOptions } from '@/types/index.js'
 
 export default async function create(name: string, options: CreateOptions) {
   // 验证是否正常取到值
